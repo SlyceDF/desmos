@@ -1,17 +1,3 @@
-settings @{
-  randomSeed: "1a585b94aceee0023578b74dcae83b6b",
-  viewport: @{
-    xmin: -10,
-    xmax: 10,
-    ymin: -6.232394366197184,
-    ymax: 6.373239436619718,
-  },
-}
-
-folder "geometry" {
-
-} @{ secret: true }
-
 folder "lib" {
   C_arg(z) = arctan(z.y, z.x) @{ color: "#c74440" }
 
