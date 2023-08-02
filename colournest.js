@@ -3,7 +3,7 @@
 // @namespace    https://github.com/slycedf
 // @version      0.1
 // @description  Colour-coded nested brackets.
-// @author       SlyceDF
+// @author       SlyceDF, originally by rownor
 // @match        *://www.desmos.com/*
 // @run-at       document-start
 // @grant        none
