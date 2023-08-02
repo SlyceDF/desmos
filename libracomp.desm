@@ -1,0 +1,1372 @@
+settings @{
+  randomSeed: "1a585b94aceee0023578b74dcae83b6b",
+  viewport: @{
+    xmin: -10,
+    xmax: 10,
+    ymin: -6.232394366197184,
+    ymax: 6.373239436619718,
+  },
+}
+
+folder "geometry" {
+
+} @{ secret: true }
+
+folder "lib" {
+  C_arg(z) = arctan(z.y, z.x) @{ color: "#c74440" }
+
+  C_abs(z) = sqrt(z.x ^ 2 + z.y ^ 2) @{ color: "#388c46" }
+
+  C_pdt(z, z_x) = (z.x * z_x.x - z.y * z_x.y, z.x * z_x.y + z_x.x * z.y) @{
+    color: "#6042a6",
+  }
+
+  C_qnt(z, z_x) =
+    (
+      (z.x * z_x.x + z.y * z_x.y) / (z_x.x ^ 2 + z_x.y ^ 2),
+      (z.y * z_x.x - z.x * z_x.y) / (z_x.x ^ 2 + z_x.y ^ 2)
+    ) @{ color: "#388c46" }
+
+  C_exp(z) = (e ^ z.x * cos(z.y), e ^ z.x * sin(z.y)) @{ color: "#6042a6" }
+
+  C_plg(z) = (ln(sqrt(z.x ^ 2 + z.y ^ 2)), arctan(z.y, z.x)) @{
+    color: "#000000",
+  }
+
+  C_pow(z, z_x) =
+    C_exp(
+      (
+        z_x.x * ln(sqrt(z.x ^ 2 + z.y ^ 2)) - z_x.y * arctan(z.y, z.x),
+        z_x.y * ln(sqrt(z.x ^ 2 + z.y ^ 2)) + z_x.x * arctan(z.y, z.x)
+      )
+    ) @{ color: "#c74440" }
+
+  C_sin(z) = (sin(z.x) * cosh(z.y), cos(z.x) * sinh(z.y)) @{ color: "#6042a6" }
+
+  C_cos(z) = (cos(z.x) * cosh(z.y), -sin(z.x) * sinh(z.y)) @{ color: "#388c46" }
+
+  C_cnj(z) = (z.x, -z.y) @{ color: "#2d70b3" }
+
+  C_gma(z) =
+    (
+      z.y * 0 +
+        (integral x=(0 ... infty) (e ^ -x * (C_pow((x, 0), (z.x - 1, z.y))).x)),
+      (integral x=(0 ... infty) (e ^ -x * (C_pow((x, 0), (z.x - 1, z.y))).y))
+    ) @{ color: "#000000" }
+
+  C_tan(z) = C_qnt(C_sin(z), C_cos(z)) @{ color: "#388c46" }
+
+  C_cot(z) = C_qnt(C_cos(z), C_sin(z)) @{ color: "#000000" }
+
+  C_sec(z) = C_qnt((1, 0), C_cos(z)) @{ color: "#6042a6" }
+
+  C_csc(z) = C_qnt((1, 0), C_sin(z)) @{ color: "#2d70b3" }
+
+  C_sinh(z) = C_pdt(C_sin(C_pdt(z, (0, 1))), (0, -1)) @{ color: "#6042a6" }
+
+  C_cosh(z) = C_cos(C_pdt(z, (0, 1))) @{ color: "#2d70b3" }
+
+  C_tanh(z) = C_qnt(C_sinh(z), C_cosh(z)) @{ color: "#2d70b3" }
+
+  C_coth(z) = C_qnt(C_cosh(z), C_sinh(z)) @{ color: "#6042a6" }
+
+  C_sech(z) = C_qnt((1, 0), C_cosh(z)) @{ color: "#c74440" }
+
+  C_csch(z) = C_qnt((1, 0), C_sinh(z)) @{ color: "#388c46" }
+
+  C_asin(z) =
+    C_pdt(
+      (0, -1),
+      C_plg(C_pdt((0, 1), z) + C_pow((1, 0) - C_pow(z, (2, 0)), (1 / 2, 0)))
+    ) @{ color: "#c74440" }
+
+  C_acos(z) =
+    C_pdt(
+      (0, 1),
+      C_plg(z - C_pdt((0, 1), C_pow((1, 0) - C_pow(z, (2, 0)), (1 / 2, 0))))
+    ) @{ color: "#2d70b3" }
+
+  C_asinh(z) = C_acosh(C_pdt(i, z)) @{ color: "#c74440" }
+
+  C_rzt(z) =
+    C_pdt(
+      C_qnt((1, 0), C_gma(z)),
+      (
+        (
+          integral x=(0 ... infty)
+          ((C_pow((x, 0), (z.x - 1, z.y))).x / (e ^ x - 1))
+        ),
+        (
+          integral x=(0 ... infty)
+          ((C_pow((x, 0), (z.x - 1, z.y))).y / (e ^ x - 1))
+        )
+      )
+    ) @{ color: "#6042a6" }
+
+  C_log(z, z_x) = C_qnt(C_plg(z), C_plg(z_x)) @{ color: "#c74440" }
+
+  R_gma(z) = (z - 1)! @{ color: "#6042a6", hidden: true }
+
+  R_dgm(z) = R_gma'(z) / R_gma(z) @{ color: "#2d70b3", hidden: true }
+
+  g_amma = -(integral x=(0 ... 1) (ln(ln(1 / x)))) @{ color: "#c74440" }
+
+  phi = (1 + sqrt(5)) / 2 @{ color: "#000000" }
+
+  p_si = (2 / 3) * cosh((1 / 3) * arccosh(29 / 2)) + 1 / 3 @{ color: "#000000" }
+
+  d_elta = 1 + sqrt(2) @{ color: "#c74440" }
+
+  i = (0, 1) @{ color: "#000000", hidden: true }
+
+  R = (1, 0) @{ color: "#388c46", hidden: true }
+
+  I_B3(z_x, z_xx, z_xxx, z_xxxx, z_xxxxx) =
+    z_x + z_xxxxx(-3 * z_x + 3 * z_xx) +
+      z_xxxxx ^ 2 * (3 * z_x - 6 * z_xx + 3 * z_xxx) +
+      z_xxxxx ^ 3 * (-z_x + 3 * z_xx - 3 * z_xxx + z_xxxx) @{ color: "#c74440" }
+
+  I_M(z, z_x, z_xx) =
+    M_V(z) *
+      {
+        M_S(z) = 1:
+        (
+            sum z_xax=(1 ... sqrt(M_L(z)))
+            (
+              z_xx ^ (z_xax - 1) *
+                (
+                  sum z_xxax=(1 ... sqrt(M_L(z)))
+                  (z[(z_xax - 1) * sqrt(M_L(z)) + z_xxax] * z_x[z_xxax])
+                )
+            )
+          )
+      } @{ color: "#c74440" }
+
+  I_L(z, z_x, z_xx) = (1 - z_xx) * z + z_xx * z_x @{ color: "#000000" }
+
+  M_StM(z, z_x) =
+    (
+      [
+        {|z[z_x1x]| >= 0: z[z_x1x], 0} for z_x1x = [
+          1
+          ...
+          z_x * ceil(count(z) / z_x)
+        ]
+      ]
+    ).join(z_x) @{ color: "#c74440" }
+
+  M_StMl(z, z_x) =
+    (
+      [
+        {|z[z_x1x]| >= 0: z[z_x1x], 0} for z_x1x = [
+          1
+          ...
+          z_x * ceil(count(z) / z_x)
+        ]
+      ]
+    ).join(ceil(count(z) / z_x)) @{ color: "#c74440" }
+
+  M_L(z) = count(z) - 1 @{ color: "#000000", hidden: true }
+
+  M_l(z) = M_L(z) / z[count(z)] @{ color: "#388c46" }
+
+  M_h(z) = z[count(z)] @{ color: "#2d70b3" }
+
+  M_V(z) = {M_L(z) = M_l(z) * M_h(z): 1} @{ color: "#388c46" }
+
+  M_S(z) = M_V(z) * {M_l(z) = M_h(z): 1} @{ color: "#2d70b3" }
+
+  M_MtS(z) = [z[z_x12x] for z_x12x = [1 ... M_L(z)]] @{ color: "#6042a6" }
+
+  M_i(z, z_1x) =
+    [M_MtS(z)[M_l(z) * (z_1x.y - 1) + z_x0] for z_x0 = [1 ... M_l(z)]][
+      z_1x.x
+    ] @{ color: "#2d70b3" }
+
+  M_sum(z, z_xxxx) =
+    {
+      {M_l(z) = M_l(z_xxxx): 1} - {M_h(z) = M_h(z_xxxx): 1} = 0:
+      M_StM(M_MtS(z) + M_MtS(z_xxxx), M_h(z))
+    } @{ color: "#6042a6" }
+
+  M_dif(z, z_xxxx) =
+    {
+      {M_l(z) = M_l(z_xxxx): 1} - {M_h(z) = M_h(z_xxxx): 1} = 0:
+      M_StM(M_MtS(z) - M_MtS(z_xxxx), M_h(z))
+    } @{ color: "#c74440" }
+
+  M_exph(z) =
+    (
+      [
+        {
+          ceil((mod(z_435x - 0.1, M_l(z) + 1) + 0.2) / (M_l(z) + 1)) = 1:
+          z[z_435x],
+          0
+        } for z_435x = [1 ... M_L(z) + M_h(z)]
+      ]
+    ).join(M_h(z)) @{ color: "#6042a6" }
+
+  M_expl(z) =
+    ([{z_3x <= M_L(z): z[z_3x], 0} for z_3x = [1 ... M_L(z) + M_l(z)]]).join(
+      M_h(z) + 1
+    ) @{ color: "#388c46" }
+
+  M_T(z) =
+    ([z[M_rel(z_42x, M_l(z), M_h(z))] for z_42x = [1 ... M_L(z)]]).join(
+      M_l(z)
+    ) @{ color: "#000000" }
+
+  M_dsprs(z, z_234x, z_434x) =
+    {z_434x = 1: 1, ceil(mod((z - 1 + 1 / 2) / z_234x, z_434x))} @{
+    color: "#388c46",
+  }
+
+  M_rel(z, z_565x, z_535x) =
+    M_dsprs(z, z_535x, z_565x) + z_565x(M_dsprs(z, 1, z_535x) - 1) @{
+    color: "#2d70b3",
+  }
+
+  M_v(z) = {M_L(z) = M_h(z): 1, 0} @{ color: "#c74440" }
+
+  M_StV(z) = z.join(count(z)) @{ color: "#2d70b3" }
+
+  M_dpdt(z, z_4563x) =
+    {
+      M_v(z) * M_v(z_4563x) * {M_h(z) = M_h(z_4563x): 1, 0} = 1:
+      (sum z_27x=(1 ... M_h(z)) (z[z_27x] * z_4563x[z_27x]))
+    } @{ color: "#000000" }
+
+  M_OPtV(z) = [z.x, z.y, 2] @{ color: "#6042a6" }
+
+  M_VtOP(z) = {M_h(z) = 2: (z[1], z[2])} @{ color: "#000000" }
+
+  M_loop(z, z_x) =
+    mod(M_dsprs(z, z_x, z_x) + M_dsprs(z, 1, z_x) - 2, z_x) + 1 @{
+    color: "#6042a6",
+  }
+
+  M_det2(z) = {M_S(z) * M_l(z) = 2: z[1] * z[4] - z[2] * z[3]} @{
+    color: "#388c46",
+  }
+
+  M_sar(z) =
+    {
+      M_S(z) = 1:
+      (
+          sum z_45x=(1 ... M_h(z))
+          (
+            product z_46x=(1 ... M_h(z))
+            (M_r(z, z_46x)[M_loop(3 * (z_45x - 1) + z_46x, M_h(z))])
+          )
+        ) -
+          (
+            sum z_45x=(1 ... M_h(z))
+            (
+              product z_46x=(1 ... M_h(z))
+              (
+                M_r(z, z_46x)[
+                  M_loop(-(3 * (z_45x - 1) + z_46x) + 1 + M_h(z), M_h(z))
+                ]
+              )
+            )
+          )
+    } @{ color: "#c74440" }
+
+  M_c(z, z_46x) = [M_i(z, (z_46x, z_57x)) for z_57x = [1 ... M_h(z)]] @{
+    color: "#000000",
+  }
+
+  M_r(z, z_46x) = [M_i(z, (z_57x, z_46x)) for z_57x = [1 ... M_l(z)]] @{
+    color: "#6042a6",
+  }
+
+  M_pdt(z, z_x2) =
+    {
+      M_l(z) = M_h(z_x2):
+      (
+          [
+            M_dpdt(
+              M_StV(M_r(z, M_dsprs(z_x1, M_l(z_x2), M_h(z)))),
+              M_StV(M_c(z_x2, M_dsprs(z_x1, 1, M_l(z_x2))))
+            ) for z_x1 = [1 ... M_h(z) * M_l(z_x2)]
+          ]
+        ).join(M_h(z))
+    } @{ color: "#000000" }
+
+  M_cpdt(z, z_4563x) =
+    {
+      M_v(z) * M_v(z_4563x) * {M_h(z) = M_h(z_4563x): 1, 0} *
+        {M_h(z) = 3: 1, 0} =
+        1:
+      (
+          M_pdt(
+            M_StM([0, -z[3], z[2], z[3], 0, -z[1], -z[2], z[1], 0], 3),
+            z_4563x
+          )
+        ).join(3)
+    } @{ color: "#c74440" }
+
+  M_wpdt(z, z_4563x) =
+    {
+      M_v(z) * M_v(z_4563x) * {M_h(z) = M_h(z_4563x): 1, 0} = 1:
+      M_dif(M_pdt(z, M_T(z_4563x)), M_pdt(z_4563x, M_T(z)))
+    } @{ color: "#2d70b3" }
+
+  M_tpdt(z, z_4563x) =
+    {
+      M_v(z) * M_v(z_4563x) * {M_h(z) = M_h(z_4563x): 1, 0} = 1:
+      M_dif(M_pdt(z_4563x, M_T(z)), M_pdt(z, M_T(z_4563x)))
+    } @{ color: "#388c46" }
+
+  M_Vm(z) = {M_v(z) = 1: sqrt(sum z_x21=(1 ... M_h(z)) (z[z_x21] ^ 2))} @{
+    color: "#6042a6",
+  }
+
+  I_gB(z, z_4x7, z_2x2) =
+    (
+      sum z_1x1=(0 ... z)
+      (
+        nCr(z, z_1x1) * (1 - z_2x2) ^ (z - z_1x1) * z_2x2 ^ z_1x1 *
+          z_4x7[z_1x1 + 1]
+      )
+    ) @{ color: "#2d70b3" }
+
+  R_sinrp(z, z_1x6) =
+    {
+      mod(floor(z / pi), 2) = 1: (sin(pi * (z / pi)) + 1) ^ z_1x6,
+      -((sin(-pi * (z / pi)) + 1) ^ z_1x6) + 2
+    } -
+      1 @{ color: "#388c46" }
+
+  R_cosrp(z, z_1x6) = R_sinrp(z + pi / 2, z_1x6) @{ color: "#000000" }
+
+  R_tanrp(z, z_1x6) = R_sinrp(z, z_1x6) / R_cosrp(z, z_1x6) @{
+    color: "#000000",
+  }
+
+  R_cotrp(z, z_1x6) = R_cosrp(z, z_1x6) / R_sinrp(z, z_1x6) @{
+    color: "#6042a6",
+  }
+
+  R_secrp(z, z_1x6) = 1 / R_cosrp(z, z_1x6) @{ color: "#2d70b3" }
+
+  R_cscrp(z, z_1x6) = 1 / R_sinrp(z, z_1x6) @{ color: "#000000" }
+
+  R_sin2rp(z, z_1x6) =
+    {
+      mod(floor(z / pi), 2) = 1: |2 * mod(-(z / pi), 1) - 1| ^ z_1x6 - 1,
+      -(|2 * mod(-(z / pi), 1) - 1| ^ z_1x6) + 1
+    } @{ color: "#000000" }
+
+  R_cos2rp(z, z_1x6) = R_sin2rp(z + pi / 2, z_1x6) @{ color: "#000000" }
+
+  R_tan2rp(z, z_1x6) = R_sin2rp(z, z_1x6) / R_cos2rp(z, z_1x6) @{
+    color: "#000000",
+  }
+
+  R_cot2rp(z, z_1x6) = R_cos2rp(z, z_1x6) / R_sin2rp(z, z_1x6) @{
+    color: "#000000",
+  }
+
+  R_sec2rp(z, z_1x6) = 1 / R_cos2rp(z, z_1x6) @{ color: "#000000" }
+
+  R_csc2rp(z, z_1x6) = 1 / R_sin2rp(z, z_1x6) @{ color: "#000000" }
+
+  I_pfs(z, z_xz) =
+    (sum z_xz2=(1 ... count(z)) (z[z_xz2] * C_exp((0, -tau * z_xz2 * z_xz)))) @{
+    color: "#c74440",
+  }
+
+  I_pfc(z, z_xz) =
+    [z[z_xy2] * C_exp((0, -tau * z_xy2 * z_xz)) for z_xy2 = [1 ... count(z)]] @{
+    color: "#6042a6",
+  }
+
+  I_fs(z, z_x, z_xz) =
+    (
+      sum z_xo2=(1 ... count(z))
+      (z[z_xo2] * C_exp((0, -tau(z_xo2 - z_x) * z_xz)))
+    ) @{ color: "#c74440" }
+
+  I_fc(z, z_x, z_xz) =
+    [
+      z[z_xd2] * C_exp((0, -tau(z_xd2 - z_x) * z_xz)) for z_xd2 = [
+        1
+        ...
+        count(z)
+      ]
+    ] @{ color: "#000000" }
+
+  M_omt(z, z_x) = ceil(z - 0.5) + {z + 0.5 - z_x >= 0: 1, 0} @{
+    color: "#c74440",
+  }
+
+  M_rr(z, z_x) =
+    (
+      [
+        z[M_skiph(z_10x0, M_h(z), M_l(z), z_x)] for z_10x0 = [
+          1
+          ...
+          M_L(z) - M_l(z)
+        ]
+      ]
+    ).join(M_h(z) - 1) @{ color: "#388c46" }
+
+  M_rc(z, z_x) =
+    (
+      [
+        z[M_skipl(z_9x01, M_h(z), M_l(z), z_x)] for z_9x01 = [
+          1
+          ...
+          M_L(z) - M_h(z)
+        ]
+      ]
+    ).join(M_h(z)) @{ color: "#388c46" }
+
+  M_skiph(z, z_x, z_xx, z_xxx) =
+    M_dsprs(z, 1, z_xx) + z_xx(M_omt(M_dsprs(z, z_xx, z_x - 1), z_xxx) - 1) @{
+    color: "#6042a6",
+  }
+
+  M_skipl(z, z_x, z_xx, z_xxx) =
+    M_omt(M_dsprs(z, 1, z_xx - 1), z_xxx) +
+      z_xx(M_dsprs(z, z_xx - 1, z_x) - 1) @{ color: "#c74440" }
+
+  M_mnr(z, z_x) = M_rc(M_rr(z, z_x.x), z_x.y) @{ color: "#6042a6" }
+
+  M_cft(z, z_1x) =
+    ((-1) ^ (z_1x.x + z_1x.y) * M_MtS(M_mnr(z, z_1x))).join(
+      M_h(M_mnr(z, z_1x))
+    ) @{ color: "#000000" }
+
+  M_det4(z) =
+    {
+      M_S(z) = 1:
+      {
+          M_h(z) = 4:
+          (
+              sum z_2x3=(1 ... M_l(z))
+              (M_i(z, (z_2x3, 1)) * M_det3(M_cft(z, (z_2x3, 1))))
+            )
+        }
+    } @{ color: "#c74440" }
+
+  C_acosh(z) = C_plg(z + C_pow(C_pow(z, 2 * R) - R, R / 2)) @{
+    color: "#6042a6",
+  }
+
+  C_atanh(z) = C_qnt(C_plg(C_qnt(R + z, R - z)), 2 * R) @{ color: "#6042a6" }
+
+  C_acoth(z) = C_atanh(C_qnt(R, z)) @{ color: "#c74440" }
+
+  C_asech(z) = C_acosh(C_pow(z, -R)) @{ color: "#6042a6" }
+
+  C_acsch(z) = C_asinh(C_pow(z, -R)) @{ color: "#000000" }
+
+  C_atan(z) = C_pdt(i, C_atanh(C_pdt(z, -i))) @{ color: "#c74440" }
+
+  C_acot(z) = (pi * R) / 2 - C_atan(z) @{ color: "#388c46" }
+
+  C_asec(z) = C_acos(C_pow(z, -R)) @{ color: "#000000" }
+
+  C_acsc(z) = C_asin(C_pow(z, -R)) @{ color: "#c74440" }
+
+  M_det5(z) =
+    {
+      M_S(z) = 1:
+      {
+          M_h(z) = 5:
+          (
+              sum z_21x3=(1 ... M_l(z))
+              (M_i(z, (z_21x3, 1)) * M_det4(M_cft(z, (z_21x3, 1))))
+            )
+        }
+    } @{ color: "#c74440" }
+
+  M_det6(z) =
+    {
+      M_S(z) = 1:
+      {
+          M_h(z) = 6:
+          (
+              sum z_211x3=(1 ... M_l(z))
+              (M_i(z, (z_211x3, 1)) * M_det5(M_cft(z, (z_211x3, 1))))
+            )
+        }
+    } @{ color: "#c74440" }
+
+  M_det7(z) =
+    {
+      M_S(z) = 1:
+      {
+          M_h(z) = 7:
+          (
+              sum z_2111x3=(1 ... M_l(z))
+              (M_i(z, (z_2111x3, 1)) * M_det6(M_cft(z, (z_2111x3, 1))))
+            )
+        }
+    } @{ color: "#2d70b3" }
+
+  M_det8(z) =
+    {
+      M_S(z) = 1:
+      {
+          M_h(z) = 8:
+          (
+              sum z_2121x3=(1 ... M_l(z))
+              (M_i(z, (z_2121x3, 1)) * M_det7(M_cft(z, (z_2121x3, 1))))
+            )
+        }
+    } @{ color: "#6042a6" }
+
+  M_det9(z) =
+    {
+      M_S(z) = 1:
+      {
+          M_h(z) = 9:
+          (
+              sum z_2131x3=(1 ... M_l(z))
+              (M_i(z, (z_2131x3, 1)) * M_det8(M_cft(z, (z_2131x3, 1))))
+            )
+        }
+    } @{ color: "#000000" }
+
+  M_det10(z) =
+    {
+      M_S(z) = 1:
+      {
+          M_h(z) = 10:
+          (
+              sum z_2231x3=(1 ... M_l(z))
+              (M_i(z, (z_2231x3, 1)) * M_det9(M_cft(z, (z_2231x3, 1))))
+            )
+        }
+    } @{ color: "#c74440" }
+
+  M_W2(z) = M_StM([cos(z), -sin(z), sin(z), cos(z)], 2) @{
+    color: "#c74440",
+    hidden: true,
+  }
+
+  M_W3(z, z_x, z_xx) =
+    M_pdt3(
+      M_pdt3(
+        M_StM([cos(z_xx), sin(z_xx), 0, -sin(z_xx), cos(z_xx), 0, 0, 0, 1], 3),
+        M_StM([1, 0, 0, 0, cos(z_x), sin(z_x), 0, -sin(z_x), cos(z_x)], 3)
+      ),
+      M_StM([cos(z), sin(z), 0, -sin(z), cos(z), 0, 0, 0, 1], 3)
+    ) @{ color: "#2d70b3" }
+
+  R_bta(z, z_x) = (R_gma(z) * R_gma(z_x)) / R_gma(z + z_x) @{ color: "#c74440" }
+
+  P_cx(z, z_x, z_xx) = z(sin(z_x) * sin(z_xx)) @{ color: "#2d70b3" }
+
+  P_cy(z, z_x, z_xx) = z(sin(z_x) * cos(z_xx)) @{ color: "#388c46" }
+
+  P_cz(z, z_x, z_xx) = z * cos(z_x) @{ color: "#6042a6" }
+
+  P_Cx(
+    x_00,
+    y_00,
+    z_00,
+    c_fx00,
+    c_fy00,
+    c_fz00,
+    c_r00,
+    varphi_00,
+    theta_00,
+    c_zoom00
+  ) =
+    (
+      ((x_00 - c_fx00) * cos(theta_00) - (y_00 - c_fy00) * sin(theta_00)) /
+        P_Cz(
+          x_00,
+          y_00,
+          z_00,
+          c_fx00,
+          c_fy00,
+          c_fz00,
+          c_r00,
+          varphi_00,
+          theta_00,
+          c_zoom00
+        )
+    ) *
+      c_zoom00 @{ color: "#c74440" }
+
+  P_Cy(
+    x_00,
+    y_00,
+    z_00,
+    c_fx00,
+    c_fy00,
+    c_fz00,
+    c_r00,
+    varphi_00,
+    theta_00,
+    c_zoom00
+  ) =
+    (
+      (
+        (x_00 - c_fx00) * sin(theta_00) * cos(varphi_00) +
+          (y_00 - c_fy00) * cos(theta_00) * cos(varphi_00) -
+          (z_00 - c_fz00) * sin(varphi_00)
+      ) /
+        P_Cz(
+          x_00,
+          y_00,
+          z_00,
+          c_fx00,
+          c_fy00,
+          c_fz00,
+          c_r00,
+          varphi_00,
+          theta_00,
+          c_zoom00
+        )
+    ) *
+      c_zoom00 @{ color: "#2d70b3" }
+
+  P_Cz(
+    x_00,
+    y_00,
+    z_00,
+    c_fx00,
+    c_fy00,
+    c_fz00,
+    c_r00,
+    varphi_00,
+    theta_00,
+    c_zoom00
+  ) =
+    -(
+      (x_00 - P_cx(c_r00, varphi_00, theta_00) - c_fx00) * sin(theta_00) *
+        sin(varphi_00) +
+        (y_00 - P_cy(c_r00, varphi_00, theta_00) - c_fy00) * cos(theta_00) *
+          sin(varphi_00) +
+        (z_00 - P_cz(c_r00, varphi_00, theta_00) - c_fz00) * cos(varphi_00)
+    ) @{ color: "#388c46" }
+
+  P_proj(L_00, C_00, c_p00, c_r00, c_zoom00) =
+    C_pdt(
+      (
+        P_Cx(
+          L_00[1],
+          L_00[2],
+          L_00[3],
+          C_00[1],
+          C_00[2],
+          C_00[3],
+          c_p00[3],
+          -c_p00[1],
+          -c_p00[2] - pi / 2,
+          c_zoom00
+        ),
+        P_Cy(
+          L_00[1],
+          L_00[2],
+          L_00[3],
+          C_00[1],
+          C_00[2],
+          C_00[3],
+          c_p00[3],
+          -c_p00[1],
+          -c_p00[2] - pi / 2,
+          c_zoom00
+        )
+      ),
+      C_exp(-c_r00 * i)
+    ) *
+      {
+        P_Cz(
+          L_00[1],
+          L_00[2],
+          L_00[3],
+          C_00[1],
+          C_00[2],
+          C_00[3],
+          c_p00[3],
+          -c_p00[1],
+          -c_p00[2] - pi / 2,
+          c_zoom00
+        ) >
+          0:
+        1
+      } @{ color: "#000000" }
+
+  Q_pdt(z, z_x) =
+    [
+      z[1] * z_x[1] - z[2] * z_x[2] - z[3] * z_x[3] - z[4] * z_x[4],
+      z[1] * z_x[2] + z[2] * z_x[1] + z[3] * z_x[4] - z[4] * z_x[3],
+      z[1] * z_x[3] + z[3] * z_x[1] + z[4] * z_x[2] - z[2] * z_x[4],
+      z[1] * z_x[4] + z[4] * z_x[1] + z[2] * z_x[3] - z[3] * z_x[2]
+    ] @{ color: "#c74440" }
+
+  P_rotq(z, z_x, z_xx) =
+    [
+      Q_pdt(
+        Q_pdt(
+          [cos(z_xx / 2), 0, 0, 0] +
+            sin(z_xx / 2) * [0, z_x[1], z_x[2], z_x[3]],
+          [0, z[1], z[2], z[3]]
+        ),
+        [cos(-(z_xx / 2)), 0, 0, 0] +
+          sin(-(z_xx / 2)) * [0, z_x[1], z_x[2], z_x[3]]
+      )[2],
+      Q_pdt(
+        Q_pdt(
+          [cos(z_xx / 2), 0, 0, 0] +
+            sin(z_xx / 2) * [0, z_x[1], z_x[2], z_x[3]],
+          [0, z[1], z[2], z[3]]
+        ),
+        [cos(-(z_xx / 2)), 0, 0, 0] +
+          sin(-(z_xx / 2)) * [0, z_x[1], z_x[2], z_x[3]]
+      )[3],
+      Q_pdt(
+        Q_pdt(
+          [cos(z_xx / 2), 0, 0, 0] +
+            sin(z_xx / 2) * [0, z_x[1], z_x[2], z_x[3]],
+          [0, z[1], z[2], z[3]]
+        ),
+        [cos(-(z_xx / 2)), 0, 0, 0] +
+          sin(-(z_xx / 2)) * [0, z_x[1], z_x[2], z_x[3]]
+      )[4]
+    ] @{ color: "#388c46" }
+
+  E_bexp(z, z_x, z_xx) =
+    [
+      nCr(z_xx, z_hj2) * z ^ (z_xx - z_hj2) * z_x ^ z_hj2 for z_hj2 = [
+        0
+        ...
+        z_xx
+      ]
+    ] @{ color: "#c74440" }
+
+  E_cbexp(z, z_x, z_xx) =
+    [
+      nCr(z_xx, z_hj2) *
+        C_pdt(C_pow(z, z_xx - z_hj2) * C_pow(z_x, z_hj2)) for z_hj2 = [
+        0
+        ...
+        z_xx
+      ]
+    ] @{ color: "#6042a6" }
+
+  I_cdstm(z) =
+    M_StM(
+      [
+        0,
+        1,
+        0,
+        0,
+        -z,
+        0,
+        z,
+        0,
+        2 * z,
+        z - 3,
+        3 - 2 * z,
+        -z,
+        -z,
+        2 - z,
+        z - 2,
+        z
+      ],
+      4
+    ) @{ color: "#388c46", hidden: true }
+
+  I_pm(z) =
+    (([2 * z[1] - z[2]]).join(z)).join(2 * z[count(z)] - z[count(z) - 1]) @{
+    color: "#2d70b3",
+  }
+
+  I_cd(z, z_x, z_xx) =
+    [
+      {
+        z_xx < z_00v / (count(z) - 1):
+        I_M(
+            I_cdstm(z_x),
+            [I_pm(z)[z_0v + z_00v - 1] for z_0v = [1 ... count(z)]],
+            (count(z) - 1) * mod(z_xx, 1 / (count(z) - 1))
+          )
+      } for z_00v = [1 ... count(z)]
+    ][ceil((count(z) - 1) * z_xx)] @{ color: "#c74440" }
+
+  I_S(z) = 3 * z ^ 2 - 2 * z ^ 3 @{ color: "#000000", hidden: true }
+
+  I_iS(z) = 1 / 2 - sin(arcsin(1 - 2 * z) / 3) @{
+    color: "#c74440",
+    hidden: true,
+  }
+
+  I_nM(z, z_x, z_xx) =
+    {M_l(z) = count(z_x): 1} *
+      (
+        sum z_8j=(1 ... M_l(z))
+        (
+          sum z_3j=(1 ... M_h(z))
+          (z_xx ^ (z_3j - 1) * M_c(z, z_8j)[z_3j] * z_x[z_3j])
+        )
+      ) @{ color: "#c74440" }
+
+  I_nM3(z, z_x, z_xx) =
+    {M_l(z) = M_h(z_x): 1} *
+      (
+        sum z_8j=(1 ... M_l(z))
+        (
+          sum z_3j=(1 ... M_h(z))
+          (z_xx ^ (z_3j - 1) * M_c(z, z_8j)[z_3j] * M_r(z_x, z_8j))
+        )
+      ) @{ color: "#c74440" }
+
+  I_kf(z, z_x, z_xx, z_xxx) = (z_xxx - z_xx[z]) / (z_xx[z + z_x] - z_xx[z]) @{
+    color: "#6042a6",
+  }
+
+  I_kg(z, z_x, z_xx, z_xxx) = 1 - I_kf(z, z_x, z_xx, z_xxx) @{
+    color: "#000000",
+  }
+
+  I_N0(z, z_x, z_xx) = {z_x[z] < z_xx <= z_x[z + 1]: 1, 0} @{ color: "#c74440" }
+
+  I_N1(z, z_x, z_xx) =
+    I_kf(z, 1, z_x, z_xx) * I_N0(z, z_x, z_xx) +
+      I_kg(z + 1, 1, z_x, z_xx) * I_N0(z + 1, z_x, z_xx) @{ color: "#c74440" }
+
+  I_N2(z, z_x, z_xx) =
+    I_kf(z, 2, z_x, z_xx) * I_N1(z, z_x, z_xx) +
+      I_kg(z + 1, 2, z_x, z_xx) * I_N1(z + 1, z_x, z_xx) @{ color: "#2d70b3" }
+
+  I_NURBS(z, z_x, z_xx, z_xxx) =
+    (
+      sum z_0g=(1 ... count(z))
+      (
+        (
+          (
+            I_N2(z_0g, I_normk(z_x), z_xxx) *
+              {z_0g <= count(z_xx): z_xx[z_0g], 1}
+          ) /
+            (
+              sum z_1g=(1 ... count(z))
+              (I_N2(z_1g, I_normk(z_x), z_xxx) * z_xx[z_1g])
+            )
+        ) *
+          z[z_0g]
+      )
+    ) @{ color: "#c74440" }
+
+  I_normk(z) = (([min(z) - 0.001]).join(z)).join(max(z) + 0.0001) @{
+    color: "#c74440",
+    hidden: true,
+  }
+
+  I_mL(z, z_x) =
+    [
+      I_L(z[z_kk], z[z_kk + 1], mod((count(z) - 1) * z_x, 1)) for z_kk = [
+        1
+        ...
+        count(z) - 1
+      ]
+    ][ceil((count(z) - 1) * z_x)] @{ color: "#c74440" }
+
+  R_flat(z, z_x) = arctan(sin(z) / z_x) / arccot(|z_x|) @{ color: "#c74440" }
+
+  C_flat(z, z_x) = C_qnt(C_atan(C_qnt(C_sin(z), z_x)), C_atan(C_abs(z_x))) @{
+    color: "#c74440",
+  }
+
+  I_rsBp(z, z_x, z_xxx, z_xx) =
+    [I_rsB(z, z_x, z_xxx, z_1p9) for z_1p9 = [0 ... z_xx - 1] / (z_xx - 1)] @{
+    color: "#2d70b3",
+  }
+
+  I_sBp(z, z_x, z_xx) =
+    [I_sB(z, z_x, z_1p9) for z_1p9 = [0 ... z_xx - 1] / (z_xx - 1)] @{
+    color: "#6042a6",
+  }
+
+  I_3BcV(z, z_x) =
+    [I_mL(z[3 * z_0p ... 3 * z_0p + 2], z_x) for z_0p = [0 ... count(z) / 3]] @{
+    color: "#000000",
+  }
+
+  I_bb(z, z_x, z_xx) = nCr(z, z_x) * (1 - z_xx) ^ (z - z_x) * z_xx ^ z_x @{
+    color: "#c74440",
+  }
+
+  I_rB(z, z_x, z_xx, z_xxx) =
+    (
+      sum z_fw3=(0 ... z)
+      (I_bb(z, z_fw3, z_xxx) * z_x[z_fw3 + 1] * z_xx[z_fw3 + 1])
+    ) /
+      (sum z_fw3=(0 ... z) (I_bb(z, z_fw3, z_xxx) * z_xx[z_fw3 + 1])) @{
+    color: "#2d70b3",
+  }
+
+  M_vt2(z, z_x) =
+    M_StV([z[1] * z_x[1] + z[2] * z_x[2], z[1] * z_x[3] + z[2] * z_x[4]]) @{
+    color: "#c74440",
+  }
+
+  M_vt3(z, z_x) =
+    M_StV(
+      [
+        z[1] * z_x[1] + z[2] * z_x[2] + z[3] * z_x[3],
+        z[1] * z_x[4] + z[2] * z_x[5] + z[3] * z_x[6],
+        z[1] * z_x[7] + z[2] * z_x[8] + z[3] * z_x[9]
+      ]
+    ) @{ color: "#388c46" }
+
+  M_pdt2(z, z_x) =
+    M_StM(
+      [
+        z[1] * z_x[1] + z[2] * z_x[3],
+        z[1] * z_x[2] + z[2] * z_x[4],
+        z[3] * z_x[1] + z[4] * z_x[3],
+        z[3] * z_x[2] + z[2] * z_x[4]
+      ],
+      2
+    ) @{ color: "#000000" }
+
+  M_pdt3(z, z_x) =
+    M_StM(
+      [
+        z[1] * z_x[1] + z[2] * z_x[4] + z[3] * z_x[7],
+        z[1] * z_x[2] + z[2] * z_x[5] + z[3] * z_x[8],
+        z[1] * z_x[3] + z[2] * z_x[6] + z[3] * z_x[9],
+        z[4] * z_x[1] + z[5] * z_x[4] + z[6] * z_x[7],
+        z[4] * z_x[2] + z[5] * z_x[5] + z[6] * z_x[8],
+        z[4] * z_x[3] + z[5] * z_x[6] + z[6] * z_x[9],
+        z[7] * z_x[1] + z[8] * z_x[4] + z[9] * z_x[7],
+        z[7] * z_x[2] + z[8] * z_x[5] + z[9] * z_x[8],
+        z[7] * z_x[3] + z[8] * z_x[6] + z[9] * z_x[9]
+      ],
+      3
+    ) @{ color: "#c74440" }
+
+  P_pc(z) = z.x * C_exp(z.y * i) @{ color: "#c74440" }
+
+  P_cp(z) = (C_abs(z), C_arg(z)) @{ color: "#388c46" }
+
+  P_r1Sp(z) = (cot(z[1] / 2), z[2]) @{ color: "#6042a6" }
+
+  P_pS(z) = [2 * arctan(1 / z.x), z.y, 1] @{ color: "#000000" }
+
+  P_SC(z) =
+    [
+      z[3] * sin(z[1]) * cos(z[2]),
+      z[3] * sin(z[1]) * sin(z[2]),
+      z[3] * cos(z[1])
+    ] @{ color: "#c74440" }
+
+  P_CS(z) =
+    [
+      arccos(z[3] / sqrt(z[1] ^ 2 + z[2] ^ 2 + z[3] ^ 2)),
+      sign(z[2]) * arccos(z[1] / sqrt(z[1] ^ 2 + z[2] ^ 2)),
+      sqrt(z[1] ^ 2 + z[2] ^ 2 + z[3] ^ 2)
+    ] @{ color: "#2d70b3" }
+} @{ secret: true, collapsed: true }
+
+folder "docs" {
+  "use https://gist.github.com/jared-hughes/1bab5d94e2ad0ab326180a21e3f955c0 to bypass nesting limits"
+
+  "--------------------------------------------"
+
+  "Complex-Extended Functions"
+
+  "(C with subscript)"
+
+  "= Unary Geometric"
+
+  "> arg(z): argument of z "
+
+  "> abs(z): absolute value of z"
+
+  "> cnj(z): complex conjugate of z"
+
+  "= Trig"
+
+  "> sin(z): sine of z"
+
+  "> cos(z): cosine of z"
+
+  "> tan(z): tangent of z"
+
+  "> cot(z): cotangent of z"
+
+  "> sec(z): secant of z"
+
+  "> csc(z): cosecant of z"
+
+  "= Hypertrig"
+
+  "> sinh(z): hyperbolic sine of z"
+
+  "> cosh(z): hyperbolic cosine of z"
+
+  "> tanh(z): hyperbolic tangent of z"
+
+  "> coth(z): hyperbolic cotangent of z"
+
+  "> sech(z): hyperbolic secant of z"
+
+  "> csch(z): hyperbolic cosecant of z"
+
+  "= Inverse Trig"
+
+  "> asin(z): arcsine of z"
+
+  "> acos(z): arccosine of z"
+
+  "> atan(z): arctangent of z"
+
+  "> acot(z): arccotangent of z"
+
+  "> asec(z): arcsecant of z"
+
+  "> acsc(z): arccosecant of z"
+
+  "= Inverse Hypertrig"
+
+  "> asinh(z): hyperbolic arcsine of z"
+
+  "> acosh(z): hyperbolic arccosine of z"
+
+  "> atanh(z): hyperbolic arctangent of z"
+
+  "> acoth(z): hyperbolic arccotangent of z"
+
+  "> asech(z): hyperbolic arcsecant of z"
+
+  "> acsch(z): hyperbolic arccosecant of z"
+
+  "= Arithmetic"
+
+  "> pdt(z,w): z*w"
+
+  "> qnt(z,w): z/w"
+
+  "= Algebra"
+
+  "> exp(z): eᶻ"
+
+  "> plg(z): principal branch of complex ln"
+
+  "> log(z,w): logᵥᵥ(z)"
+
+  "> pow(z,w): zʷ"
+
+  "= Misc"
+
+  "> gma(z): gamma function of z"
+
+  "> flat(z): flatsine of z"
+
+  " "
+
+  "Real-Extended Functions"
+
+  "(R with subscript)"
+
+  "= Misc"
+
+  "> gma(x): gamma function of x"
+
+  "> dgm(x): digamma function of x"
+
+  "> flat(x): flatsine of x"
+
+  "> bet(x): beta function of x"
+
+  " "
+
+  "Interpolation"
+
+  "(I with subscript)"
+
+  "= Bezier Curves"
+
+  "> B3: Cubic Bezier"
+
+  "∟> B3(P1, P2, P3, P4, t), where Pn - control point n, t - time value"
+
+  "> gB: n-Order Bezier"
+
+  "∟> gB(n, P, t), where n - order, P - control point set, t - time value"
+
+  "> rB: n-Order Rational Bezier"
+
+  "∟> rB(n, P, w, t), where n - order, P - control point set, w - control weight set, t - time value"
+
+  "> sB: n-Order Bezier Spline"
+
+  "∟> sB(n, P, t), where n - order, P - control point set, t - time value"
+
+  "> rsB: n-Order Rational Bezier Spline"
+
+  "∟> rsB(n, P, w, t), where n - order, P - control point set, w - weight values, t - time value"
+
+  "> sBp: m Samples of n-Order Bezier"
+
+  "∟> sBp(n, P, m), where n - order, P - control point set, m - sample amount"
+
+  "> rsBp: m Samples of n-Order Rational Bezier"
+
+  "∟> rsBp(n, P, w, m), where n - order, P - control point set, w - control weight set, m - sample amount"
+
+  "> 3BcV: Control segments of Cubic Bezier"
+
+  "∟> 3BcV(P, m), where P - control point set, t - time value"
+
+  "= Misc"
+
+  "> M: Characteristic Matrix Spline"
+
+  "∟> M(M, P, t), where M - Char. Matrix, P - control point set, t - time value"
+
+  "> nM: Generalized Characteristic Matrix Spline"
+
+  "∟> nM(M, P, t), where M - Char. Matrix (can be any), P - control point set (length same as matrix width), t - time value"
+
+  "> nM3: Generalized 3d Characteristic Matrix Spline"
+
+  "∟> nM3(M, P, t), where M - Char. Matrix (can be any), P - 3d control point set (number of points same as matrix width, made by calling M_StMl(join(),3) on all points in order inside of join()), t - time value"
+
+  "> NURBS: NURBS"
+
+  "∟> NURBS(P, k, w, t), where P - control point set, k - knot value set, w - weight set, t - time value (length of P = length of w = length of k - 1)"
+
+  "> cd: Cardinal Spline"
+
+  "∟> cd(P, s, t), where P - control point set, s - scale parameter, t - time value"
+
+  "> L: Linear Interpolation"
+
+  "∟> L(P1, P2, t), where P1 - starting point, P2 - \nendpoint set, t - time value"
+
+  "> mL: Piecewise Linear Interpolation"
+
+  "∟> mL(P, t), where P - control point set, t - time value"
+
+  "> S: Smoothstep"
+
+  "∟> S(t), where t - time value"
+
+  "> iS: Inverse Smoothstep"
+
+  "∟> iS(x), where x - smoothstep value"
+
+  "> pfs: Partial Fourier Series"
+
+  "∟> pfs(S, t), where S - coefficient set, t - time value"
+
+  "> pfc: Partial Fourier Components"
+
+  "∟> pfc(S, t), where S - coefficient set, t - time value"
+
+  "> fs: Fourier Series"
+
+  "∟> fs(S, i, t), where S - coefficient set, i - static coefficient index, t - time value"
+
+  "> fc: Fourier Components"
+
+  "∟> fc(S, i, t), where S - coefficient set, i - static coefficient index, t - time value"
+
+  " "
+
+  "Matrices"
+
+  "(M with subscript)"
+
+  "= Boolean Output"
+
+  "> S: Check if Matrix is square"
+
+  "> V: Check if Matrix is valid"
+
+  "> v: check if Matrix is vector"
+
+  "= Matrix Properties"
+
+  "> i: Get Matrix Element by Coordinate"
+
+  "∟> i(M, P), where M - matrix, P - coordinate"
+
+  "> c: Specific Column of Matrix"
+
+  "∟> c(M, n), where M - input matrix, n - column index"
+
+  "> r: Specific Row of Matrix"
+
+  "∟> r(M, n), where M - input matrix, n - row index"
+
+  "> Vm: Get Vector Magnitude"
+
+  "> L: Get Matrix Length"
+
+  "> h: Get Matrix Height"
+
+  "> l: Get Matrix Width"
+
+  "> sar: Sarrus Determinant of Square Matrix"
+
+  "> det2: Determinant of Length 2 Square Matrix"
+
+  "> det3: Determinant of Length 3 Square Matrix"
+
+  "> det4: Determinant of Length 4 Square Matrix"
+
+  "   ...."
+
+  "> det10: Determinant of Length 10 Square Matrix"
+
+  "> conj: Conjugate of Matrix"
+
+  "> conjT: Conjugate Transpose of Matrix"
+
+  "= Matrix Conversions"
+
+  "> MtS: Convert Matrix to Array"
+
+  "∟> MtS(M), where M - input matrix"
+
+  "> StM: Convert Array to Matrix"
+
+  "∟> StM(S, h), where S - input array, h - output matrix height"
+
+  "> StMl: Convert Array to Matrix by length"
+
+  "∟> StM(S, l), where S - input array, l - output matrix length"
+
+  "> StV: Convert Array to Vector"
+
+  "∟> StV(S), where S - input array"
+
+  "> OPtV: Convert Ordered Pair to Vector"
+
+  "∟> OPtV(O), where O - input pair"
+
+  "> VtOP: Convert Vector to Ordered Pair"
+
+  "∟> VtOP(V), where V - input 2D vector"
+
+  "> W2: 2D Rotation Matrix"
+
+  "∟> W2(θ), where θ - angle of rotation"
+
+  "> W3: 3D Euler Angle Rotation Matrix"
+
+  "∟> W3(φ, θ, ψ), where φ, θ, ψ - Euler angles of rotation"
+
+  "= Matrix Operations"
+
+  "> pdt: Multiply Matrices"
+
+  "> pdt2: Multiply 2d Square Matrices"
+
+  "> pdt3: Multiply 3d Square Matrices"
+
+  "> sum: Add Matrices"
+
+  "> dif: Substract Matrices"
+
+  "> dpdt: Dot Product"
+
+  "> cpdt: Cross Product"
+
+  "> wpdt: Wedge Product"
+
+  "> tpdt: Tilt Product"
+
+  "> T: Transpose Matrix"
+
+  "> exph: Expand Matrix by Height"
+
+  "> expl: Expand Matrix by Length"
+
+  " > rr: Remove Matrix Row"
+
+  "∟> rr(M, n), where M - matrix, n - row index"
+
+  " > rc: Remove Matrix Column"
+
+  "∟> rc(M, n), where M - matrix, n - column index"
+
+  "> vt2: Transform 2d Vector"
+
+  "∟> vt2(v, M), where v - vector, M - transformation matrix"
+
+  "> vt3: Transform 3d Vector"
+
+  "∟> vt3(v, M), where v - vector, M - transformation matrix"
+
+  " "
+
+  "Constants"
+
+  "(Lowercase Greek letters)"
+
+  "= \"Special\" Constants"
+
+  "> γ\\gamma: Euler-Mascheroni Constant"
+
+  "= Radical-definable Constants"
+
+  "> φ\\phi: Golden Ratio"
+
+  "> ψ\\psi: Supergolden Ratio"
+
+  "> δ\\delta: Silver Ratio"
+
+  "> i: Imaginary Unit"
+
+  "> R: Real Unit"
+
+  " "
+
+  "Projection Tools"
+
+  "(P with subscript)"
+
+  "= Projections"
+
+  "> proj - perspective projection "
+
+  "∟> proj(a, b, S, r, m), where a - 3D point, b - camera cartesian offset, S - camera spherical coordinates, r - camera roll, m - camera zoom"
+
+  "= Transformations"
+
+  "> rotq - quaternion rotation"
+
+  "∟> rotq(a, b, θ), where a - 3D point, b - 3D normalized rotation vector, θ - angle"
+
+  "> pc - 2D cartesian to polar"
+
+  "> cp - 2D polar to cartesian"
+
+  "> pS - inverse stereographic from polar"
+
+  "> r1Sp - spherical projection to polar"
+
+  "> SC - spherical to 3D cartesian"
+
+  "∟> SC([φ, θ, r]), where r - radial distance, θ - azimuthal angle, φ - polar angle"
+
+  "> CS - 3D cartesian to spherical"
+
+  " "
+
+  "Extra"
+
+  "(E with subscript)"
+
+  "= Expansions"
+
+  "> bexp(a, b, p) - binomial expansion of (a + b)ᵖ"
+
+  "> cbexp(z, w, p) - bin. expansion of complex (z + w)ᵖ"
+
+  "--------------------------------------------"
+
+  "By SlyceDF, v1.4.1;\nfrom https://github.com/SlyceDF/desmos/"
+} @{ collapsed: true }
