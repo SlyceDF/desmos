@@ -1,4 +1,5 @@
-folder "lib" {
+
+folder "libracomp -- lib" {
   C_arg(z) = arctan(z.y, z.x) @{ color: "#c74440" }
 
   C_abs(z) = sqrt(z.x ^ 2 + z.y ^ 2) @{ color: "#388c46" }
@@ -953,7 +954,7 @@ folder "lib" {
     ] @{ color: "#2d70b3" }
 } @{ secret: true, collapsed: true }
 
-folder "docs" {
+folder "libracomp -- docs" {
   "use https://gist.github.com/jared-hughes/1bab5d94e2ad0ab326180a21e3f955c0 to bypass nesting limits"
 
   "--------------------------------------------"
@@ -1354,5 +1355,5 @@ folder "docs" {
 
   "--------------------------------------------"
 
-  "libracomp\nBy SlyceDF, v1.4.1;\nfrom https://github.com/SlyceDF/desmos/"
+  "libracomp\nBy SlyceDF, v1.4.3;\nfrom https://github.com/SlyceDF/desmos/"
 } @{ collapsed: true }
