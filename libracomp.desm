@@ -1354,5 +1354,5 @@ folder "docs" {
 
   "--------------------------------------------"
 
-  "By SlyceDF, v1.4.1;\nfrom https://github.com/SlyceDF/desmos/"
+  "libracomp\nBy SlyceDF, v1.4.1;\nfrom https://github.com/SlyceDF/desmos/"
 } @{ collapsed: true }
