@@ -1,7 +1,7 @@
 # desmos
 Desmos stuff by me
 
-### [Libracomp](https://www.desmos.com/calculator/ljf0d1fdve)
+### [Libracomp](https://www.desmos.com/calculator/cnlglup3fm)
 A desmos function library I made, import the link into a graph to use
 
 ### [Colournest](https://raw.githubusercontent.com/SlyceDF/desmos/main/colournest.js)
