@@ -1,5 +1,5 @@
 # desmos
 Desmos stuff by me
 
-### [Libracomp](https://www.desmos.com/calculator/3ksxz14zwf)
+### [Libracomp](https://www.desmos.com/calculator/j0mbrc4fe4)
 A desmos function library I made, import the link into a graph to use, for extra geometry features also import [this](https://www.desmos.com/geometry/bidcnznibm)
