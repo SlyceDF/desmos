@@ -1,0 +1,365 @@
+folder "libracomp -- geometry module -- lib" {
+  I_sBlen(Psi_0ls, Psi_0x, Psi_0xx) =
+    (
+      [
+        (
+          Psi_0l3h / Psi_0xx,
+          [
+            sum Psi_0j2j=(1 ... Psi_0j2n1 - 1)
+            (
+              distance(
+                [
+                  I_sB(Psi_0ls, Psi_0x, Psi_0j2n2) for Psi_0j2n2 = [
+                    0
+                    ...
+                    Psi_0xx
+                  ] /
+                    Psi_0xx
+                ][Psi_0j2j],
+                [
+                  I_sB(Psi_0ls, Psi_0x, Psi_0j2n2) for Psi_0j2n2 = [
+                    0
+                    ...
+                    Psi_0xx
+                  ] /
+                    Psi_0xx
+                ][Psi_0j2j + 1]
+              )
+            ) for Psi_0j2n1 = [1 ... Psi_0xx + 1]
+          ][Psi_0l3h + 1]
+        ) for Psi_0l3h = [0 ... Psi_0xx]
+      ][Psi_0xx + 1]
+    ).y @{ color: "#388c46" }
+
+  P_lint(Psi_0aba, Psi_0bab) =
+    {
+      0 <=
+        (
+          C_qnt(
+            intersection(Psi_0aba, Psi_0bab) - glider(Psi_0bab, 1),
+            (glider(Psi_0bab, 0) - glider(Psi_0bab, 1)) /
+              |glider(Psi_0bab, 0) - glider(Psi_0bab, 1)|
+          )
+        ).x <=
+        length(Psi_0bab):
+      intersection(Psi_0aba, Psi_0bab),
+      (infty, infty)
+    } @{ color: "#2d70b3" }
+
+  I_sBd(Psi_0ls, Psi_0x, Psi_0xxx, Psi_0xx) =
+    {
+      Psi_0xxx = 0: I_sB(Psi_0ls, Psi_0x, 0),
+      Psi_0xxx >= I_sBlen(Psi_0ls, Psi_0x, Psi_0xx): I_sB(Psi_0ls, Psi_0x, 1),
+
+      I_sB(
+          3,
+          Psi_0x,
+          (
+            [
+              (
+                P_lint(
+                  line((0, Psi_0xxx), (-1, Psi_0xxx)),
+                  [
+                    segment(
+                      [
+                        (
+                          Psi_0l3h / Psi_0xx,
+                          [
+                            sum Psi_0j2j=(1 ... Psi_0j2n1 - 1)
+                            (
+                              distance(
+                                [
+                                  I_sB(
+                                    Psi_0ls,
+                                    Psi_0x,
+                                    Psi_0j2n2
+                                  ) for Psi_0j2n2 = [0 ... Psi_0xx] / Psi_0xx
+                                ][Psi_0j2j],
+                                [
+                                  I_sB(
+                                    Psi_0ls,
+                                    Psi_0x,
+                                    Psi_0j2n2
+                                  ) for Psi_0j2n2 = [0 ... Psi_0xx] / Psi_0xx
+                                ][Psi_0j2j + 1]
+                              )
+                            ) for Psi_0j2n1 = [1 ... Psi_0xx + 1]
+                          ][Psi_0l3h + 1]
+                        ) for Psi_0l3h = [0 ... Psi_0xx]
+                      ][Psi_0k23f],
+                      [
+                        (
+                          Psi_0l3h / Psi_0xx,
+                          [
+                            sum Psi_0j2j=(1 ... Psi_0j2n1 - 1)
+                            (
+                              distance(
+                                [
+                                  I_sB(
+                                    Psi_0ls,
+                                    Psi_0x,
+                                    Psi_0j2n2
+                                  ) for Psi_0j2n2 = [0 ... Psi_0xx] / Psi_0xx
+                                ][Psi_0j2j],
+                                [
+                                  I_sB(
+                                    Psi_0ls,
+                                    Psi_0x,
+                                    Psi_0j2n2
+                                  ) for Psi_0j2n2 = [0 ... Psi_0xx] / Psi_0xx
+                                ][Psi_0j2j + 1]
+                              )
+                            ) for Psi_0j2n1 = [1 ... Psi_0xx + 1]
+                          ][Psi_0l3h + 1]
+                        ) for Psi_0l3h = [0 ... Psi_0xx]
+                      ][Psi_0k23f + 1]
+                    ) for Psi_0k23f = [1 ... Psi_0xx]
+                  ][Psi_0ckx]
+                )
+              ).x for Psi_0ckx = [1 ... Psi_0xx]
+            ]
+          ).sort()[1]
+        )
+    } @{ color: "#c74440" }
+
+  Omega_StM(Psi_0ls, Psi_0x) =
+    [
+      polygon(
+        [
+          Omega_StMPREP(Psi_0ls, Psi_0x)[Psi_0n39j0] for Psi_0n39j0 = [
+            (Psi_0m39j0 - 1) * ceil(count(Psi_0ls) / Psi_0x) + 1
+            ...
+            Psi_0m39j0 * ceil(count(Psi_0ls) / Psi_0x)
+          ]
+        ]
+      ) for Psi_0m39j0 = [1 ... Psi_0x]
+    ] @{ color: "#c74440" }
+
+  Omega_StMPREP(Psi_0ls, Psi_0x) =
+    [
+      {
+        (Psi_0ls[Psi_012d]).x = (Psi_0ls[Psi_012d]).x: Psi_0ls[Psi_012d],
+        (0, 0)
+      } for Psi_012d = [1 ... Psi_0x * ceil(count(Psi_0ls) / Psi_0x)]
+    ] @{ color: "#2d70b3" }
+
+  Omega_StMl(Psi_0ls, Psi_0x) =
+    [
+      polygon(
+        [
+          Omega_StMPREP(Psi_0ls, Psi_0x)[Psi_0k3r2] for Psi_0k3r2 = [
+            (Psi_0kmr2 - 1) * Psi_0x + 1
+            ...
+            Psi_0kmr2 * Psi_0x
+          ]
+        ]
+      ) for Psi_0kmr2 = [1 ... ceil(count(Psi_0ls) / Psi_0x)]
+    ] @{ color: "#c74440" }
+
+  Omega_i(Psi_0ls, Psi_0x) = vertices(Psi_0ls[Psi_0x.y])[Psi_0x.x] @{
+    color: "#2d70b3",
+  }
+
+  Omega_h(Psi_0ls) = count(Psi_0ls) @{ color: "#2d70b3", hidden: true }
+
+  Omega_l(Psi_0ls) = count(vertices(Psi_0ls[1])) @{ color: "#388c46" }
+
+  Omega_L(Psi_0ls) = Omega_h(Psi_0ls) * Omega_l(Psi_0ls) @{ color: "#000000" }
+
+  Omega_S(Psi_0ls) = Omega_V(Psi_0ls) * {Omega_l(Psi_0ls) = Omega_h(Psi_0ls)} @{
+    color: "#2d70b3",
+  }
+
+  Omega_V(Psi_0ls) =
+    {
+      Omega_h(Psi_0ls) > 1:
+      {
+          total(
+            [
+              {
+                Omega_l(Psi_0ls) = count(vertices(Psi_0ls[Psi_432jdds]))
+              } for Psi_432jdds = [2 ... Omega_h(Psi_0ls)]
+            ]
+          ) =
+            Omega_h(Psi_0ls) - 1
+        },
+      {Omega_l(Psi_0ls) = Omega_l(Psi_0ls)}
+    } @{ color: "#388c46" }
+
+  Omega_v(Psi_0ls) = Omega_V(Psi_0ls) * {Omega_l(Psi_0ls) = 1} @{
+    color: "#c74440",
+  }
+
+  Omega_c(Psi_0ls, Psi_0x) =
+    [
+      vertices(Psi_0ls[Psi_0nf1x])[Psi_0x] for Psi_0nf1x = [
+        1
+        ...
+        Omega_h(Psi_0ls)
+      ]
+    ] @{ color: "#2d70b3" }
+
+  Omega_r(Psi_0ls, Psi_0x) =
+    vertices(Psi_0ls[Psi_0x])[1 ... Omega_l(Psi_0ls)] @{ color: "#388c46" }
+
+  Omega_Vm(Psi_0ls) =
+    Omega_v(Psi_0ls) *
+      C_pow(total(C_pdt(Omega_c(Psi_0ls, 1), Omega_c(Psi_0ls, 1))), 0.5 * R) @{
+    color: "#388c46",
+  }
+
+  Omega_MtS(Psi_0ls) =
+    [
+      Omega_i(
+        Psi_0ls,
+        (
+          M_dsprs(n, 1, Omega_l(Psi_0ls)),
+          M_dsprs(n, Omega_l(Psi_0ls), Omega_h(Psi_0ls))
+        )
+      ) for n = [1 ... Omega_L(Psi_0ls)]
+    ] @{ color: "#2d70b3" }
+
+  Omega_sum(Psi_0ls, Psi_0x) =
+    {Omega_l(Psi_0ls) = Omega_l(Psi_0x)} *
+      {Omega_h(Psi_0ls) = Omega_h(Psi_0x)} *
+      Omega_StM(Omega_MtS(Psi_0ls) + Omega_MtS(Psi_0x), Omega_h(Psi_0ls)) @{
+    color: "#c74440",
+  }
+
+  Omega_dif(Psi_0ls, Psi_0x) =
+    {Omega_l(Psi_0ls) = Omega_l(Psi_0x)} *
+      {Omega_h(Psi_0ls) = Omega_h(Psi_0x)} *
+      Omega_StM(Omega_MtS(Psi_0ls) - Omega_MtS(Psi_0x), Omega_h(Psi_0ls)) @{
+    color: "#388c46",
+  }
+
+  Omega_StV(Psi_0ls) =
+    [polygon(Psi_0ls[Psi_0l3r2s]) for Psi_0l3r2s = [1 ... count(Psi_0ls)]] @{
+    color: "#6042a6",
+  }
+
+  Omega_OPtV(Psi_0ls) = [polygon((Psi_0ls.x, 0)), polygon((Psi_0ls.y, 0))] @{
+    color: "#c74440",
+  }
+
+  Omega_ReP(Psi_0ls) = M_StM((Omega_MtS(Psi_0ls)).x, Omega_h(Psi_0ls)) @{
+    color: "#388c46",
+  }
+
+  Omega_ImP(Psi_0ls) = M_StM((Omega_MtS(Psi_0ls)).y, Omega_h(Psi_0ls)) @{
+    color: "#6042a6",
+  }
+
+  Omega_abs(Psi_0ls) = M_StM(|Omega_MtS(Psi_0ls)|, Omega_h(Psi_0ls)) @{
+    color: "#2d70b3",
+  }
+
+  Omega_arg(Psi_0ls) = M_StM(C_arg(Omega_MtS(Psi_0ls)), Omega_h(Psi_0ls)) @{
+    color: "#388c46",
+  }
+
+  Omega_conj(Psi_0ls) =
+    Omega_StM(C_conj(Omega_MtS(Psi_0ls)), Omega_h(Psi_0ls)) @{
+    color: "#388c46",
+  }
+
+  Omega_conv(Psi_0ls) = Omega_StM((M_MtS(Psi_0ls), 0), M_h(Psi_0ls)) @{
+    color: "#000000",
+  }
+
+  Omega_scl(Psi_0ls, Psi_0x) =
+    Omega_StM(C_pdt(Omega_MtS(Psi_0ls), Psi_0x), Omega_h(Psi_0ls)) @{
+    color: "#c74440",
+  }
+
+  Omega_T(Psi_0ls) =
+    Omega_StM(
+      [
+        Omega_MtS(Psi_0ls)[
+          M_rel(Psi_042x, Omega_l(Psi_0ls), Omega_h(Psi_0ls))
+        ] for Psi_042x = [1 ... Omega_L(Psi_0ls)]
+      ],
+      Omega_l(Psi_0ls)
+    ) @{ color: "#388c46" }
+
+  Omega_dpdt(Psi_0ls, Psi_0x) =
+    Omega_v(Psi_0ls) * Omega_v(Psi_0x) * {Omega_h(Psi_0ls) = Omega_h(Psi_0x)} *
+      total(C_pdt(Omega_MtS(Psi_0ls), Omega_MtS(Psi_0x))) @{ color: "#c74440" }
+
+  Omega_pdt(Psi_0ls, Psi_0x) =
+    Omega_scl(
+      Omega_StM(
+        [
+          total(
+            C_pdt(
+              Omega_c(Psi_0x, M_dsprs(Psi_2304jjj, 1, Omega_l(Psi_0x))),
+              Omega_r(
+                Psi_0ls,
+                M_dsprs(Psi_2304jjj, Omega_l(Psi_0x), Omega_h(Psi_0x))
+              )
+            )
+          ) for Psi_2304jjj = [1 ... Omega_h(Psi_0ls) * Omega_l(Psi_0x)]
+        ],
+        Omega_h(Psi_0ls)
+      ),
+      {Omega_l(Psi_0ls) = Omega_h(Psi_0x)} * R
+    ) @{ color: "#000000" }
+
+  Omega_vt2(Psi_0ls, Psi_0x) =
+    Omega_StV(
+      [
+        C_pdt(Omega_i(Psi_0x, (1, 1)), Omega_i(Psi_0ls, (1, 1))) +
+          C_pdt(Omega_i(Psi_0x, (2, 1)), Omega_i(Psi_0ls, (1, 2))),
+        C_pdt(Omega_i(Psi_0x, (1, 2)), Omega_i(Psi_0ls, (1, 1))) +
+          C_pdt(Omega_i(Psi_0x, (2, 2)), Omega_i(Psi_0ls, (1, 2)))
+      ]
+    ) @{ color: "#388c46" }
+
+  Omega_det2(Psi_0ls) =
+    C_pdt(Omega_i(Psi_0ls, (1, 1)), Omega_i(Psi_0ls, (2, 2))) -
+      C_pdt(Omega_i(Psi_0ls, (2, 1)), Omega_i(Psi_0ls, (1, 2))) @{
+    color: "#388c46",
+  }
+
+  Omega_inv2(Psi_0ls) =
+    Omega_StM(
+      [
+        Omega_i(Psi_0ls, (2, 2)),
+        -Omega_i(Psi_0ls, (2, 1)),
+        -Omega_i(Psi_0ls, (1, 2)),
+        Omega_i(Psi_0ls, (1, 1))
+      ],
+      2
+    ) @{ color: "#c74440" }
+
+  E_cong(Psi_0x, Psi_0ls) =
+    intersection(
+      line(
+        Psi_0x[1],
+        glider(circle(Psi_0x[1], 1), mod(Psi_0ls / (2 * tau), 1))
+      ),
+      line(
+        intersection(
+          line(
+            intersection(
+              line(Psi_0x[1], Psi_0x[2]),
+              line(Psi_0x[5], Psi_0x[3])
+            ),
+            intersection(
+              line(Psi_0x[3], Psi_0x[4]),
+              line(
+                Psi_0x[1],
+                glider(circle(Psi_0x[1], 1), mod(Psi_0ls / (2 * tau), 1))
+              )
+            )
+          ),
+          line(Psi_0x[2], Psi_0x[4])
+        ),
+        Psi_0x[5]
+      )
+    ) @{ color: "#c74440" }
+} @{ secret: true, collapsed: true }
+
+folder "libracomp -- geometry module" {
+  "exclusive to desmos geometry\n\nBy SlyceDF, compat--v1.4.13;\nfrom https://github.com/SlyceDF/desmos/"
+} @{ collapsed: true }
