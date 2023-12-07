@@ -1763,6 +1763,11 @@ folder "libracomp -- lib" {
           ),
       Psi_0INTERNALFACTORIAL(Psi_0ls, Psi_0ls + (7.5, 0))
     } @{ color: "#388c46" }
+
+  R_irf(Psi_0ls) = (normaldist(0, 1 / sqrt(2))).quantile((Psi_0ls + 1) / 2) @{
+    color: "#c74440",
+    hidden: true,
+  }
 } @{ secret: true, collapsed: true }
 
 folder "libracomp -- lib (laggy)" {
@@ -2786,6 +2791,8 @@ folder "libracomp -- docs" {
   "> bet(x): beta function of x"
 
   "> W0(x): principal w lambert of x"
+
+  "> irf(x): inverse error function"
 
   " "
 
