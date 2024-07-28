@@ -759,6 +759,7 @@ folder "libracomp -- lib" {
     Psi_0rgn,
     Psi_0phi00,
     Psi_0theta,
+    Psi_0fov,
     Psi_0zoom
   ) =
     (
@@ -776,6 +777,7 @@ folder "libracomp -- lib" {
           Psi_0rgn,
           Psi_0phi00,
           Psi_0theta,
+          Psi_0fov,
           Psi_0zoom
         )
     ) *
@@ -791,6 +793,7 @@ folder "libracomp -- lib" {
     Psi_0rgn,
     Psi_0phi00,
     Psi_0theta,
+    Psi_0fov,
     Psi_0zoom
   ) =
     (
@@ -809,12 +812,44 @@ folder "libracomp -- lib" {
           Psi_0rgn,
           Psi_0phi00,
           Psi_0theta,
+          Psi_0fov,
           Psi_0zoom
         )
     ) *
       Psi_0zoom @{ color: "#2d70b3" }
 
   P_Cz(
+    Psi_0xmn,
+    Psi_0ymn,
+    Psi_0zmn,
+    Psi_0xgn,
+    Psi_0ygn,
+    Psi_0zgn,
+    Psi_0rgn,
+    Psi_0phi00,
+    Psi_0theta,
+    Psi_0fov,
+    Psi_0zoom
+  ) =
+    {
+      mod(Psi_0fov, tau) = 0: Psi_0rgn,
+
+      P_Czd(
+          Psi_0xmn,
+          Psi_0ymn,
+          Psi_0zmn,
+          Psi_0xgn,
+          Psi_0ygn,
+          Psi_0zgn,
+          Psi_0rgn * cot(Psi_0fov / 2),
+          Psi_0phi00,
+          Psi_0theta,
+          Psi_0zoom
+        ) *
+          tan(Psi_0fov / 2)
+    } @{ color: "#388c46" }
+
+  P_Czd(
     Psi_0xmn,
     Psi_0ymn,
     Psi_0zmn,
@@ -837,7 +872,16 @@ folder "libracomp -- lib" {
           cos(Psi_0phi00)
     ) @{ color: "#388c46" }
 
-  P_proj(Psi_0pos0, Psi_0cpos0, Psi_0polar0, Psi_0rgn, Psi_0zoom) =
+  P_proj(
+    Psi_0pos0,
+    Psi_0cpos0,
+    Psi_0polar0,
+    Psi_0rgn,
+    Psi_0fov,
+    Psi_0zoom,
+    Psi_0clip,
+    Psi_0pclip
+  ) =
     C_pdt(
       (
         P_Cx(
@@ -850,6 +894,7 @@ folder "libracomp -- lib" {
           Psi_0polar0[3],
           -Psi_0polar0[1],
           -Psi_0polar0[2] - pi / 2,
+          Psi_0fov,
           Psi_0zoom
         ),
         P_Cy(
@@ -862,13 +907,15 @@ folder "libracomp -- lib" {
           Psi_0polar0[3],
           -Psi_0polar0[1],
           -Psi_0polar0[2] - pi / 2,
+          Psi_0fov,
           Psi_0zoom
         )
       ),
-      C_cis(-Psi_0rgn)
+      C_exp(-Psi_0rgn * i)
     ) *
       {
-        P_Cz(
+        Psi_0clip.y >
+        P_Czd(
           Psi_0pos0[1],
           Psi_0pos0[2],
           Psi_0pos0[3],
@@ -880,7 +927,24 @@ folder "libracomp -- lib" {
           -Psi_0polar0[2] - pi / 2,
           Psi_0zoom
         ) >
-          0
+        Psi_0clip.x
+      } *
+      {
+        Psi_0pclip.y >
+        P_Cz(
+          Psi_0pos0[1],
+          Psi_0pos0[2],
+          Psi_0pos0[3],
+          Psi_0cpos0[1],
+          Psi_0cpos0[2],
+          Psi_0cpos0[3],
+          Psi_0polar0[3],
+          -Psi_0polar0[1],
+          -Psi_0polar0[2] - pi / 2,
+          Psi_0fov,
+          Psi_0zoom
+        ) >
+        Psi_0pclip.x
       } @{ color: "#000000" }
 
   Q_pdt(Psi_0ls, Psi_0x) =
@@ -3092,7 +3156,7 @@ folder "libracomp -- docs" {
 
   "> proj - perspective projection "
 
-  "∟> proj(a, b, S, r, m), where a - 3D point, b - camera cartesian offset, S - camera spherical coordinates, r - camera roll, m - camera zoom"
+  "∟> proj(a, b, S, r, f, m, c, p), where a - 3D point, b - camera cartesian offset, S - camera spherical coordinates, r - camera roll, f - fov, m - camera zoom, c - (near clip, far clip), p - (projective near clip, projective far clip)"
 
   "= Transformations"
 
@@ -3178,5 +3242,5 @@ folder "libracomp -- docs" {
 
   "--------------------------------------------"
 
-  "libracomp\nBy SlyceDF, v1.4.13;\nfrom https://github.com/SlyceDF/desmos/"
+  "libracomp\nBy SlyceDF, v1.4.14;\nfrom https://github.com/SlyceDF/desmos/"
 } @{ collapsed: true }
