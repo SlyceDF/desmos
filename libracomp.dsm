@@ -8,16 +8,12 @@ folder "libracomp -- lib" {
     ) @{ color: "#6042a6" }
 
   C_qnt(Psi_0ls, Psi_0x) =
-    {
-      |Psi_0x| = 0: (infty, infty),
-
-      (
-          (Psi_0ls.x * Psi_0x.x + Psi_0ls.y * Psi_0x.y) /
-            (Psi_0x.x ^ 2 + Psi_0x.y ^ 2),
-          (Psi_0ls.y * Psi_0x.x - Psi_0ls.x * Psi_0x.y) /
-            (Psi_0x.x ^ 2 + Psi_0x.y ^ 2)
-        )
-    } @{ color: "#388c46" }
+    (
+      (Psi_0ls.x * Psi_0x.x + Psi_0ls.y * Psi_0x.y) /
+        (Psi_0x.x ^ 2 + Psi_0x.y ^ 2),
+      (Psi_0ls.y * Psi_0x.x - Psi_0ls.x * Psi_0x.y) /
+        (Psi_0x.x ^ 2 + Psi_0x.y ^ 2)
+    ) @{ color: "#6042a6" }
 
   C_exp(Psi_0ls) = e ^ Psi_0ls.x * (cos(Psi_0ls.y), sin(Psi_0ls.y)) @{
     color: "#6042a6",
@@ -818,37 +814,6 @@ folder "libracomp -- lib" {
     ) *
       Psi_0zoom @{ color: "#2d70b3" }
 
-  P_Cz(
-    Psi_0xmn,
-    Psi_0ymn,
-    Psi_0zmn,
-    Psi_0xgn,
-    Psi_0ygn,
-    Psi_0zgn,
-    Psi_0rgn,
-    Psi_0phi00,
-    Psi_0theta,
-    Psi_0fov,
-    Psi_0zoom
-  ) =
-    {
-      mod(Psi_0fov, tau) = 0: Psi_0rgn,
-
-      P_Czd(
-          Psi_0xmn,
-          Psi_0ymn,
-          Psi_0zmn,
-          Psi_0xgn,
-          Psi_0ygn,
-          Psi_0zgn,
-          Psi_0rgn * cot(Psi_0fov / 2),
-          Psi_0phi00,
-          Psi_0theta,
-          Psi_0zoom
-        ) *
-          tan(Psi_0fov / 2)
-    } @{ color: "#388c46" }
-
   P_Czd(
     Psi_0xmn,
     Psi_0ymn,
@@ -1296,37 +1261,6 @@ folder "libracomp -- lib" {
       sqrt(Psi_0ls[1] ^ 2 + Psi_0ls[2] ^ 2 + Psi_0ls[3] ^ 2)
     ] @{ color: "#2d70b3" }
 
-  I_rsB(Psi_0x, Psi_0ls, Psi_0xxx, Psi_0xx) =
-    {
-      Psi_0xx = 1: Psi_0ls[count(Psi_0ls)],
-
-      [
-          I_rB(
-            Psi_0x,
-            Psi_0ls[Psi_0x * Psi_0jgs + 1 ... Psi_0x * Psi_0jgs + Psi_0x + 1],
-            Psi_0xxx[
-              (Psi_0x + 1) * Psi_0jgs + 1
-              ...
-              (Psi_0x + 1) * (Psi_0jgs + 1)
-            ],
-            mod(((count(Psi_0ls) - 1) / Psi_0x) * Psi_0xx, 1)
-          ) for Psi_0jgs = [0 ... (count(Psi_0ls) - 1) / Psi_0x - 1]
-        ][floor(Psi_0xx(count(Psi_0ls) - 1) / Psi_0x) + 1]
-    } @{ color: "#2d70b3" }
-
-  I_sB(Psi_0x, Psi_0ls, Psi_0xx) =
-    {
-      Psi_0xx = 1: Psi_0ls[count(Psi_0ls)],
-
-      [
-          I_gB(
-            Psi_0x,
-            Psi_0ls[Psi_0x * Psi_0jg1s + 1 ... Psi_0x * Psi_0jg1s + Psi_0x + 1],
-            mod(((count(Psi_0ls) - 1) / Psi_0x) * Psi_0xx, 1)
-          ) for Psi_0jg1s = [0 ... (count(Psi_0ls) - 1) / Psi_0x - 1]
-        ][floor(Psi_0xx(count(Psi_0ls) - 1) / Psi_0x) + 1]
-    } @{ color: "#c74440" }
-
   E_Bt10(Psi_x) =
     E_gSGN(Psi_x) *
       (
@@ -1339,28 +1273,6 @@ folder "libracomp -- lib" {
             )
           )
       ) @{ color: "#6042a6" }
-
-  E_10tB(Psi_x, Psi_xx) =
-    {
-      Psi_x = 0: [0, 0, 0, Psi_xx],
-
-      (
-          (
-            (
-              [
-                mod(
-                  floor(|Psi_x| / Psi_xx ^ Psi_0j23kx),
-                  Psi_xx
-                ) for Psi_0j23kx = [
-                  floor(logbase({Psi_x = 0: 24, |Psi_x|}, Psi_xx))
-                  ...
-                  0
-                ]
-              ]
-            ).join(mod(|Psi_x|, 1))
-          ).join(sign(Psi_x))
-        ).join(Psi_xx)
-    } @{ color: "#000000" }
 
   E_BtB(Psi_x, Psi_xx) = E_10tB(E_Bt10(Psi_x), Psi_xx) @{ color: "#000000" }
 
@@ -1471,33 +1383,33 @@ folder "libracomp -- lib" {
       (
         sum Psi_9430ggg=(1 ... count(Psi_0ls))
         (
+          product Psi_9430g35gg=(1 ... count(Psi_0x) - 1)
           (
-            product Psi_9430g35gg=(1 ... count(Psi_0x) - 1)
             (
               (Psi_0xx - Psi_0x[M_omt(Psi_9430g35gg, Psi_9430ggg)]) /
                 (
                   Psi_0x[Psi_9430ggg] -
                     Psi_0x[M_omt(Psi_9430g35gg, Psi_9430ggg)]
                 )
-            )
-          ) *
-            (Psi_0ls[Psi_9430ggg]).x
+            ) *
+              (Psi_0ls[Psi_9430ggg]).x
+          )
         )
       ),
       (
         sum Psi_9430ggg=(1 ... count(Psi_0ls))
         (
+          product Psi_9430g35gg=(1 ... count(Psi_0x) - 1)
           (
-            product Psi_9430g35gg=(1 ... count(Psi_0x) - 1)
             (
               (Psi_0xx - Psi_0x[M_omt(Psi_9430g35gg, Psi_9430ggg)]) /
                 (
                   Psi_0x[Psi_9430ggg] -
                     Psi_0x[M_omt(Psi_9430g35gg, Psi_9430ggg)]
                 )
-            )
-          ) *
-            (Psi_0ls[Psi_9430ggg]).y
+            ) *
+              (Psi_0ls[Psi_9430ggg]).y
+          )
         )
       )
     ) @{ color: "#6042a6" }
@@ -1524,17 +1436,6 @@ folder "libracomp -- lib" {
         product Psi_0ks3j=(1 ... Psi_0ls)
         (Psi_0x - cos((Psi_0ks3j * pi) / (Psi_0ls + 1)))
       ) @{ color: "#388c46" }
-
-  R_squos1(Psi_0ls, Psi_0x) =
-    {
-      Psi_0x = 0: cos(Psi_0ls),
-      round(10 ^ 6 * cos(Psi_0ls)) / 10 ^ 6 = 1: 1,
-      round(10 ^ 6 * cos(Psi_0ls)) / 10 ^ 6 = -1: -1,
-      round(10 ^ 6 * cos(Psi_0ls)) / 10 ^ 6 = 0: 0,
-
-      (sign(cos(Psi_0ls)) / (Psi_0x * sqrt(2) * |sin(Psi_0ls)|)) *
-          sqrt(1 - sqrt(1 - (Psi_0x * sin(2 * Psi_0ls)) ^ 2))
-    } @{ color: "#c74440" }
 
   R_squos(Psi_0ls, Psi_0x) =
     {
@@ -1616,48 +1517,6 @@ folder "libracomp -- lib" {
 
   Psi_9k22xi = (-R + C_sqrt(-3 * R)) / 2 @{ color: "#000000", hidden: true }
 
-  C_ecbc(Psi_0ls, Psi_0x, Psi_0xx, Psi_0xxx) =
-    {
-      |Psi_0ls| = 0: C_eqdt(Psi_0x, Psi_0xx, Psi_0xxx),
-      {|Psi_0x| = 0} * {|Psi_0xx| = 0} = 1:
-      [
-          C_pdt(
-            C_pow(Psi_9k22xi, Psi_9k3cq3c),
-            C_cbrt(C_qnt(-Psi_0xxx, Psi_0ls))
-          ) for Psi_9k3cq3c = [0 ... 2] * R
-        ],
-
-      [
-          C_pdt(
-            -(C_rcp(Psi_0ls) / 3),
-            Psi_0x +
-              C_pdt(
-                C_pow(Psi_9k22xi, Psi_9k3cq3c),
-                Psi_0xcccx(Psi_0ls, Psi_0x, Psi_0xx, Psi_0xxx)
-              ) +
-              C_qnt(
-                Psi_0delta0(Psi_0ls, Psi_0x, Psi_0xx, Psi_0xxx),
-                C_pdt(
-                  C_pow(Psi_9k22xi, Psi_9k3cq3c),
-                  Psi_0xcccx(Psi_0ls, Psi_0x, Psi_0xx, Psi_0xxx)
-                )
-              )
-          ) for Psi_9k3cq3c = [0 ... 2] * R
-        ]
-    } @{ color: "#388c46" }
-
-  C_eqdt(Psi_0ls, Psi_0x, Psi_0xx) =
-    {
-      |Psi_0ls| = 0: C_elnr(Psi_0x, Psi_0xx),
-
-      [
-          C_qnt(
-            -Psi_0x + s * C_sqrt(C_sq(Psi_0x) - 4 * C_pdt(Psi_0ls, Psi_0xx)),
-            2 * Psi_0ls
-          ) for s = [-1, 1]
-        ]
-    } @{ color: "#6042a6" }
-
   C_elnr(Psi_0ls, Psi_0x) =
     {|Psi_0ls| = 0: C_ecst(Psi_0ls), [-C_qnt(Psi_0x, Psi_0ls)]} @{
     color: "#388c46",
@@ -1731,39 +1590,6 @@ folder "libracomp -- lib" {
     ).join(3) @{ color: "#388c46" }
 
   M_cimp(Psi_0ls) = M_cnm(Psi_0ls.x, Psi_0ls.y) @{ color: "#6042a6" }
-
-  M_limp(Psi_0ls) =
-    [
-      {
-        |((Psi_0ls[1]).y - (Psi_0ls[2]).y) /
-          ((Psi_0ls[1]).x - (Psi_0ls[2]).x)| =
-          infty:
-        -(Psi_0ls[1]).x,
-
-        (Psi_0ls[1]).y -
-            (
-              ((Psi_0ls[1]).y - (Psi_0ls[2]).y) /
-                ((Psi_0ls[1]).x - (Psi_0ls[2]).x)
-            ) *
-              (Psi_0ls[1]).x
-      },
-      {
-        |((Psi_0ls[1]).y - (Psi_0ls[2]).y) /
-          ((Psi_0ls[1]).x - (Psi_0ls[2]).x)| =
-          infty:
-        1,
-        ((Psi_0ls[1]).y - (Psi_0ls[2]).y) / ((Psi_0ls[1]).x - (Psi_0ls[2]).x)
-      },
-      {
-        |((Psi_0ls[1]).y - (Psi_0ls[2]).y) /
-          ((Psi_0ls[1]).x - (Psi_0ls[2]).x)| =
-          infty:
-        0,
-        -1
-      },
-      0,
-      2
-    ] @{ color: "#c74440" }
 
   M_cmap(Psi_0ls, Psi_0x, Psi_0xx) =
     total(
@@ -3240,7 +3066,9 @@ folder "libracomp -- docs" {
 
   "> cong(P, t) - same as above but native (geometry)"
 
+  "> P - list of the first 10⁴ primes in increasing order"
+
   "--------------------------------------------"
 
-  "libracomp\nBy SlyceDF, v1.4.14;\nfrom https://github.com/SlyceDF/desmos/"
+  "libracomp\nBy SlyceDF, v1.4.15;\nfrom https://github.com/SlyceDF/desmos/"
 } @{ collapsed: true }
