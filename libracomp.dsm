@@ -1300,8 +1300,14 @@ folder "libracomp -- lib" {
     pi / 2 -
       (1 / tau) *
         (
-          integral x=(0 ... 708.6379935670635)
-          (ln((tau * cosh(x) + pi ^ 2) / (x ^ 2 + cosh(x) ^ 2) + 1))
+          integral Psi_0ls=(0 ... 708.6379935670635)
+          (
+            ln(
+              (tau * cosh(Psi_0ls) + pi ^ 2) /
+                (Psi_0ls ^ 2 + cosh(Psi_0ls) ^ 2) +
+                1
+            )
+          )
         ) @{ color: "#c74440" }
 
   M_scl(Psi_0ls, Psi_0x) = M_StM(Psi_0x * M_MtS(Psi_0ls), M_h(Psi_0ls)) @{
@@ -1658,6 +1664,57 @@ folder "libracomp -- lib" {
     color: "#c74440",
     hidden: true,
   }
+
+  R_z(Psi_0ls, Psi_0x) =
+    {
+      Psi_0ls >= 1 / 2: R_z0(Psi_0ls, Psi_0x),
+      Psi_0ls = 0: -(1 / 2),
+
+      2 ^ Psi_0ls * pi ^ (Psi_0ls - 1) * sin((pi * Psi_0ls) / 2) *
+          R_z0(1 - Psi_0ls, Psi_0x) *
+          (-Psi_0ls)!
+    } @{ color: "#c74440" }
+
+  R_z0(Psi_0ls, Psi_0x) =
+    (Psi_0x + 1 / 2) ^ (1 - Psi_0ls) / (Psi_0ls - 1) +
+      (sum Psi_034234zz3h=(1 ... Psi_0x) (1 / Psi_034234zz3h ^ Psi_0ls)) @{
+    color: "#6042a6",
+  }
+
+  C_z0(Psi_0ls, Psi_0x) =
+    C_qnt(C_pow((Psi_0x + 1 / 2) * R, R - Psi_0ls), Psi_0ls - R) +
+      (
+        sum Psi_034234zz31h=(1 ... Psi_0x)
+        (C_pow(Psi_034234zz31h * R, -Psi_0ls))
+      ) @{ color: "#6042a6" }
+
+  C_zl(Psi_0ls, Psi_0x) =
+    {
+      Psi_0ls.x >= 1 / 2: C_z0(Psi_0ls, Psi_0x),
+      |Psi_0ls| = 0: -(R / 2),
+
+      C_pdt(
+          C_pdt(C_pow(2 * R, Psi_0ls), C_pow(pi * R, Psi_0ls - R)),
+          C_pdt(
+            C_sin((pi * Psi_0ls) / 2),
+            C_pdt(C_z0(R - Psi_0ls, Psi_0x), C_fct(-Psi_0ls))
+          )
+        )
+    } @{ color: "#c74440" }
+
+  C_z(Psi_0ls, Psi_0x) =
+    {
+      Psi_0ls.x >= 1 / 2: C_z0(Psi_0ls, Psi_0x),
+      |Psi_0ls| = 0: -(R / 2),
+
+      C_pdt(
+          C_pdt(C_pow(2 * R, Psi_0ls), C_pow(pi * R, Psi_0ls - R)),
+          C_pdt(
+            C_sin((pi * Psi_0ls) / 2),
+            C_pdt(C_z0(R - Psi_0ls, Psi_0x), C_fctl(-Psi_0ls))
+          )
+        )
+    } @{ color: "#c74440" }
 } @{ secret: true, collapsed: true }
 
 folder "libracomp -- lib (laggy)" {
@@ -2640,7 +2697,7 @@ folder "libracomp -- docs" {
 
   "> gma(z): gamma function of z"
 
-  "> gmal(z): lanczos approx gamma function of z"
+  "> gmal(z): lanczos approximated gamma function of z"
 
   "> fct(z): factorial of z"
 
@@ -2648,7 +2705,11 @@ folder "libracomp -- docs" {
 
   "> W0(z): principal w lambert of z"
 
-  "> flat(z): flatsine of z"
+  "> z(x, N): zeta function approximation with N terms"
+
+  "> zl(x, N): lanczos approximated zeta function approximation with N terms"
+
+  "> flat(z, a): a-flatsine of z"
 
   " "
 
@@ -2676,13 +2737,15 @@ folder "libracomp -- docs" {
 
   "> sbf(x): subfactorial of x"
 
-  "> flat(x): flatsine of x"
+  "> flat(x, a): a-flatsine of x"
 
   "> bet(x): beta function of x"
 
   "> W0(x): principal w lambert of x"
 
   "> irf(x): inverse error function"
+
+  "> z(x, N): zeta function approximation with N terms"
 
   " "
 
@@ -3070,5 +3133,5 @@ folder "libracomp -- docs" {
 
   "--------------------------------------------"
 
-  "libracomp\nBy SlyceDF, v1.4.15;\nfrom https://github.com/SlyceDF/desmos/"
+  "libracomp\nBy SlyceDF, v1.4.16;\nfrom https://github.com/SlyceDF/desmos/"
 } @{ collapsed: true }
