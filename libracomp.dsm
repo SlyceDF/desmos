@@ -2,10 +2,15 @@ folder "libracomp -- lib" {
   C_arg(Psi_0ls) = arctan(Psi_0ls.y + 0, Psi_0ls.x + 0) @{ color: "#c74440" }
 
   C_pdt(Psi_0ls, Psi_0x) =
-    (
-      Psi_0ls.x * Psi_0x.x - Psi_0ls.y * Psi_0x.y,
-      Psi_0ls.x * Psi_0x.y + Psi_0x.x * Psi_0ls.y
-    ) @{ color: "#6042a6" }
+    {
+      C_eq(Psi_0ls, infty_c) = 1: {|Psi_0x| = 0: perp, infty_c},
+      C_eq(Psi_0x, infty_c) = 1: {|Psi_0ls| = 0: perp, infty_c},
+
+      (
+          Psi_0ls.x * Psi_0x.x - Psi_0ls.y * Psi_0x.y,
+          Psi_0ls.x * Psi_0x.y + Psi_0x.x * Psi_0ls.y
+        )
+    } @{ color: "#6042a6" }
 
   C_qnt(Psi_0ls, Psi_0x) =
     (
@@ -24,7 +29,7 @@ folder "libracomp -- lib" {
   C_pow(Psi_0ls, Psi_0x) =
     {
       |Psi_0ls| = 0:
-      {|Psi_0x| = 0: R, Psi_0x.x > 0: 0 * R, Psi_0x.x < 0: (infty, infty)},
+      {Psi_0x.x = 0: R, Psi_0x.x > 0: 0 * R, Psi_0x.x < 0: (infty, infty)},
       C_exp(C_pdt(Psi_0x, C_plg(Psi_0ls)))
     } @{ color: "#c74440" }
 
@@ -47,6 +52,8 @@ folder "libracomp -- lib" {
   C_cot(Psi_0ls) =
     (sin(2 * Psi_0ls.x), -sinh(2 * Psi_0ls.y)) /
       (cosh(2 * Psi_0ls.y) - cos(2 * Psi_0ls.x)) @{ color: "#000000" }
+
+  infty_c = (infty, infty) @{ color: "#000000", hidden: true }
 
   C_sec(Psi_0ls) = C_rcp(C_cos(Psi_0ls)) @{ color: "#6042a6" }
 
@@ -1626,10 +1633,12 @@ folder "libracomp -- lib" {
 
   C_i(Psi_0ls) = (-Psi_0ls.y, Psi_0ls.x) @{ color: "#6042a6" }
 
-  C_rcp(Psi_0ls) = C_cnj(Psi_0ls) / (Psi_0ls.x ^ 2 + Psi_0ls.y ^ 2) @{
-    color: "#6042a6",
-    hidden: true,
-  }
+  C_rcp(Psi_0ls) =
+    {
+      |Psi_0ls| = 0: infty_c,
+      C_eq(Psi_0ls, infty_c) = 1: 0 * R,
+      C_cnj(Psi_0ls) / (Psi_0ls.x ^ 2 + Psi_0ls.y ^ 2)
+    } @{ color: "#6042a6", hidden: true }
 
   Psi_0INTERNALFACTORIAL(Psi_0ls, Psi_0x) =
     2.5066282746310002 *
@@ -1715,6 +1724,19 @@ folder "libracomp -- lib" {
           )
         )
     } @{ color: "#c74440" }
+
+  perp = R * ln(-1) @{ color: "#6042a6", hidden: true }
+
+  C_eq(Psi_0ls, Psi_0x) =
+    {
+      C_und(Psi_0ls) * C_und(Psi_0x) = 1: 1,
+      {Psi_0ls.x = Psi_0x.x} * {Psi_0ls.y = Psi_0x.y} = 1: 1,
+      0
+    } @{ color: "#388c46" }
+
+  C_und(Psi_0x) = {{Psi_0x.x = Psi_0x.x} * {Psi_0x.y = Psi_0x.y} = 1: 0, 1} @{
+    color: "#6042a6",
+  }
 } @{ secret: true, collapsed: true }
 
 folder "libracomp -- lib (laggy)" {
@@ -2693,6 +2715,12 @@ folder "libracomp -- docs" {
 
   "> ecbc(a, b, c, d): ax³ + bx² + cx + d = 0"
 
+  "= Constants"
+
+  "> ∞꜀: complex infinity"
+
+  "> ⊥: nullity point"
+
   "= Misc"
 
   "> gma(z): gamma function of z"
@@ -2710,6 +2738,8 @@ folder "libracomp -- docs" {
   "> zl(x, N): lanczos approximated zeta function approximation with N terms"
 
   "> flat(z, a): a-flatsine of z"
+
+  "> eq(z, w): 1 if z = w, else 0"
 
   " "
 
@@ -3133,5 +3163,5 @@ folder "libracomp -- docs" {
 
   "--------------------------------------------"
 
-  "libracomp\nBy SlyceDF, v1.4.16;\nfrom https://github.com/SlyceDF/desmos/"
+  "libracomp\nBy SlyceDF, v1.4.17;\nfrom https://github.com/SlyceDF/desmos/"
 } @{ collapsed: true }
